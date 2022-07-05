@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CryptoKit
 
 class ViewController: UIViewController {
 
@@ -17,7 +18,7 @@ class ViewController: UIViewController {
         executeCall()
     }
     
-    func executeCall() {
+    private func executeCall() {
         let endpoint = GetNameEndpoint()
         let completion: EndpointClient.ObjectEndpointCompletion<String> = { result, response in
             guard let responseUnwrapped = response else { return }
@@ -31,36 +32,32 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
-        
         endpointClient.executeRequest(endpoint, completion: completion)
     }
-
-
 }
 
 final class GetNameEndpoint: ObjectResponseEndpoint<String> {
     
     override var method: RESTClient.RequestType { return .get }
+    
+    let publicKey = "be9aca449e446872c174ee5ca783b29a"
+    let privateKey = "fa43bba24313ffec6887c39c20979fa965da9ae8"
+    let tsValue = "1"
+    
+    
     override var path: String { "/v1/cards" }
 //    override var queryItems: [URLQueryItem(name: "id", value: "1")]?
     
     override init() {
         super.init()
-
-        queryItems = [URLQueryItem(name: "name", value: "Black Lotus")]
+        queryItems = [
+            URLQueryItem(name: "ts", value: tsValue),
+            URLQueryItem(name: "apikey", value: publicKey),
+            URLQueryItem(name: "hash", value: (tsValue + privateKey + publicKey).MD5),
+            URLQueryItem(name: "name", value: "Black Lotus")
+        ]
     }
-    
 }
-
-
-
-
-
-
-
-
-
-
 
 func decodeJSONOld() {
     let str = """
@@ -68,9 +65,12 @@ func decodeJSONOld() {
     """
     
     let data = Data(str.utf8)
-
+    
     do {
-        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+        if let json = try JSONSerialization.jsonObject(
+            with: data,
+            options: []
+        ) as? [String: Any] {
             if let names = json["team"] as? [String] {
                 print(names)
             }
@@ -80,3 +80,9 @@ func decodeJSONOld() {
     }
 }
 
+extension String {
+    var MD5: String {
+        let computed = Insecure.MD5.hash(data: self.data(using: .utf8)!)
+        return computed.map { String(format: "%02hhx", $0) }.joined()
+    }
+}

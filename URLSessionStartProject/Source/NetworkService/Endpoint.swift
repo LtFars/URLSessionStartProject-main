@@ -8,7 +8,6 @@
 import Foundation
 
 // Класс описывающий Endpoint
-
 public class Endpoint {
     public var method: RESTClient.RequestType { fatalError() }
     public var path: String { fatalError() }
@@ -18,9 +17,15 @@ public class Endpoint {
             return ["Cache-Control": "no-cache"]
             
         case .post, .put:
-            return ["Content-Type": "application/json", // тип отправляемых данных {json/form-data/html} для post / put
-                    "Accept": "application/json", // какой тип данных сервер сможет принять
-                    "Cache-Control": "no-cache"] // инструкции кеширования
+            return [
+                // тип отправляемых данных {json/form-data/html} для post / put
+                "Content-Type": "application/json",
+                
+                // какой тип данных сервер сможет принять
+                "Accept": "application/json",
+                
+                // инструкции кеширования
+                "Cache-Control": "no-cache"]
         }
     }
 
