@@ -51,6 +51,98 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03E51A5828748AED00304062 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				8FE4B9192754A009005B617D /* AppSettings.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		03E51A5928748B0900304062 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8FE4B91727549FD1005B617D /* Model.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		03E51A5A28748B1900304062 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				8FE4B91B2754A059005B617D /* Endpoint.swift */,
+				8FE4B91D2754A080005B617D /* RESTClient.swift */,
+				8FE4B91F2754A0A8005B617D /* EndpointClient.swift */,
+				8FE4B9212754A0EF005B617D /* EndpointClientError.swift */,
+				8FE4B9232754A118005B617D /* ServerError.swift */,
+			);
+			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		03E51A5B28748B4800304062 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				03E51A5F28748C2600304062 /* App */,
+				03E51A5D28748BDB00304062 /* Configs */,
+				03E51A5C28748B4F00304062 /* Storyboards */,
+				8F7518EE27549D65001F05F2 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		03E51A5C28748B4F00304062 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8F7518F027549D65001F05F2 /* LaunchScreen.storyboard */,
+				8F7518EB27549D62001F05F2 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		03E51A5D28748BDB00304062 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				8F7518F327549D65001F05F2 /* Info.plist */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		03E51A5E28748C0000304062 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				03E51A6128748CD900304062 /* MainView */,
+				03E51A5A28748B1900304062 /* NetworkService */,
+				03E51A5828748AED00304062 /* Settings */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		03E51A5F28748C2600304062 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8F7518E527549D62001F05F2 /* AppDelegate.swift */,
+				8F7518E727549D62001F05F2 /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		03E51A6028748CC500304062 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8F7518E927549D62001F05F2 /* ViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		03E51A6128748CD900304062 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				03E51A5928748B0900304062 /* Model */,
+				03E51A6028748CC500304062 /* View */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
 		8F7518D927549D62001F05F2 = {
 			isa = PBXGroup;
 			children = (
@@ -70,20 +162,8 @@
 		8F7518E427549D62001F05F2 /* URLSessionStartProject */ = {
 			isa = PBXGroup;
 			children = (
-				8F7518E527549D62001F05F2 /* AppDelegate.swift */,
-				8F7518E727549D62001F05F2 /* SceneDelegate.swift */,
-				8F7518E927549D62001F05F2 /* ViewController.swift */,
-				8F7518EB27549D62001F05F2 /* Main.storyboard */,
-				8FE4B91727549FD1005B617D /* Model.swift */,
-				8FE4B9192754A009005B617D /* AppSettings.swift */,
-				8FE4B91B2754A059005B617D /* Endpoint.swift */,
-				8FE4B91D2754A080005B617D /* RESTClient.swift */,
-				8FE4B91F2754A0A8005B617D /* EndpointClient.swift */,
-				8FE4B9212754A0EF005B617D /* EndpointClientError.swift */,
-				8FE4B9232754A118005B617D /* ServerError.swift */,
-				8F7518EE27549D65001F05F2 /* Assets.xcassets */,
-				8F7518F027549D65001F05F2 /* LaunchScreen.storyboard */,
-				8F7518F327549D65001F05F2 /* Info.plist */,
+				03E51A5B28748B4800304062 /* Resources */,
+				03E51A5E28748C0000304062 /* Source */,
 			);
 			path = URLSessionStartProject;
 			sourceTree = "<group>";
@@ -319,7 +399,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LH4VV96A9U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = URLSessionStartProject/Info.plist;
+				INFOPLIST_FILE = URLSessionStartProject/Resources/Configs/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -347,7 +427,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LH4VV96A9U;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = URLSessionStartProject/Info.plist;
+				INFOPLIST_FILE = URLSessionStartProject/Resources/Configs/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

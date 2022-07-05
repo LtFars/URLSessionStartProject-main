@@ -36,7 +36,7 @@ public final class RESTClient {
             }
             
             switch httpResponse.statusCode {
-            case 200:   // по документации - 200 единственный статус, при котором ответ считается успешным
+            case 200: // по документации - 200 единственный статус, при котором ответ считается успешным
                 handler(ResponseResult.success(data, httpResponse))
             case 500:
                 handler(ResponseResult.failure(ServerError.serverFail))
@@ -47,22 +47,25 @@ public final class RESTClient {
                 }
                 if let data = data {
                     // handle data
+                    print(data)
                 } else {
                     handler(ResponseResult.failure(ServerError.serverFail))
                 }
             }
         }
         
-        
-        
-        
-        self.resumeDataTask(with: request, session: session, completionHandler: completionHandler)
+        self.resumeDataTask(
+            with: request,
+            session: session,
+            completionHandler: completionHandler
+        )
     }
     
-    public static func resumeDataTask(with request: URLRequest,
-                               session: URLSession?,
-                               completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
-    {
+    public static func resumeDataTask(
+        with request: URLRequest,
+        session: URLSession?,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) {
         (session ?? URLSession.shared)
             .dataTask(with: request, completionHandler: completionHandler).resume()
 
