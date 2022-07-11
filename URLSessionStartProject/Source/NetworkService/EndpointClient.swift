@@ -39,9 +39,14 @@ public final class EndpointClient {
 
     // MARK: - Public Methods
 
-    public func executeRequest<Object: Decodable>(_ endpoint: ObjectResponseEndpoint<Object>,
-                                           completion: @escaping ObjectEndpointCompletion<Object>) {
-        guard let requestURL = makeRequestUrl(path: endpoint.path, queryItems: endpoint.queryItems) else {
+    public func executeRequest<Object: Decodable>(
+        _ endpoint: ObjectResponseEndpoint<Object>,
+        completion: @escaping ObjectEndpointCompletion<Object>
+    ) {
+        guard let requestURL = makeRequestUrl(
+            path: endpoint.path,
+            queryItems: endpoint.queryItems
+        ) else {
             completion(.failure(EndpointClientError.wrongURL), nil)
             return
         }
@@ -69,8 +74,14 @@ public final class EndpointClient {
                        completionHandler: completionHandler)
     }
 
-    public func executeRequest(_ endpoint: EmptyResponseEndpoint, completion: @escaping SuccessEndpointCompletion) {
-        guard let requestURL = makeRequestUrl(path: endpoint.path, queryItems: endpoint.queryItems) else {
+    public func executeRequest(
+        _ endpoint: EmptyResponseEndpoint,
+        completion: @escaping SuccessEndpointCompletion
+    ) {
+        guard let requestURL = makeRequestUrl(
+            path: endpoint.path,
+            queryItems: endpoint.queryItems
+        ) else {
             completion(.failure(EndpointClientError.wrongURL))
             return
         }
@@ -99,7 +110,10 @@ public final class EndpointClient {
 
     // MARK: - Private
 
-    private func makeRequestUrl(path: String, queryItems: [URLQueryItem]?) -> URL? {
+    private func makeRequestUrl(
+        path: String,
+        queryItems: [URLQueryItem]?
+    ) -> URL? {
         guard let baseURL = URL(string: masterServerURL) else {
             return nil
         }
@@ -110,14 +124,12 @@ public final class EndpointClient {
             requestURL = baseURL.appendingPathComponent(path)
         }
         if let queryItems = queryItems {
-            var urlComponents = URLComponents(string: requestURL.absoluteString) // "https://api.magicthegathering.io/v1/cards?name=Black%20Lotus"
+            var urlComponents = URLComponents(string: requestURL.absoluteString)
+            // "https://api.magicthegathering.io/v1/cards?name=Black%20Lotus"
             urlComponents?.queryItems = queryItems
-            guard let newRequestURL = urlComponents?.url else {
-                return nil
-            }
+            guard let newRequestURL = urlComponents?.url else { return nil }
             return newRequestURL
         }
-        
         return requestURL
     }
 
@@ -136,7 +148,7 @@ public final class EndpointClient {
         ) -> RESTClient.ResultCompletionHandler {
         return { result in
             switch result {
-            case .success(let data, let response):
+            case let .success(data, response):
                 do {
                     let objects = try self.map(Object.self, data: data)
                     mainAsync {
@@ -172,14 +184,25 @@ public final class EndpointClient {
         }
     }
 
-    private func executeRequest(method: RESTClient.RequestType,
-                                requestUrl: URL,
-                                headers: [String: String]?,
-                                body: String?,
-                                urlSession: URLSession?,
-                                completionHandler: @escaping RESTClient.ResultCompletionHandler) {
-        let request = makeRequest(method: method, url: requestUrl, headers: headers, body: body)
-        RESTClient.call(request: request, session: urlSession, completion: completionHandler)
+    private func executeRequest(
+        method: RESTClient.RequestType,
+        requestUrl: URL,
+        headers: [String: String]?,
+        body: String?,
+        urlSession: URLSession?,
+        completionHandler: @escaping RESTClient.ResultCompletionHandler
+    ) {
+        let request = makeRequest(
+            method: method,
+            url: requestUrl,
+            headers: headers,
+            body: body
+        )
+        RESTClient.call(
+            request: request,
+            session: urlSession,
+            completion: completionHandler
+        )
     }
 
     private func makeRequest(
@@ -187,7 +210,7 @@ public final class EndpointClient {
         url: URL,
         headers: [String: String]?,
         body: String?
-        ) -> URLRequest {
+    ) -> URLRequest {
         var request = URLRequest(url: url) // уже содержит query items
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
@@ -195,10 +218,11 @@ public final class EndpointClient {
         return request
     }
 
-    private func map<D: Decodable>(_ type: D.Type,
-                                   data: Data?,
-                                   using decoder: JSONDecoder = .webApiDecoder()) throws -> D
-    {
+    private func map<D: Decodable>(
+        _ type: D.Type,
+        data: Data?,
+        using decoder: JSONDecoder = .webApiDecoder()
+    ) throws -> D {
         guard let data = data else { throw EndpointClientError.noParsingData }
         do {
             print("data = \(String(describing: (String(data: data, encoding: .utf8))))")
@@ -244,4 +268,3 @@ extension JSONDecoder.DateDecodingStrategy {
         }
     }
 }
-
