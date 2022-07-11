@@ -20,14 +20,22 @@ class ViewController: UIViewController {
     
     private func executeCall() {
         let endpoint = GetNameEndpoint()
-        let completion: EndpointClient.ObjectEndpointCompletion<String> = { result, response in
+        let completion: EndpointClient.ObjectEndpointCompletion<Cards> = { result, response in
             guard let responseUnwrapped = response else { return }
 
             print("\n\n response = \(responseUnwrapped.allHeaderFields) ;\n \(responseUnwrapped.statusCode) \n")
             switch result {
-            case .success(let team):
-                print("team = \(team)")
-                
+            case .success(let cards):
+                cards.cards.forEach {
+                    if let name = $0.name { print("Имя карты: \(name)") }
+                    if let manaCost = $0.manaCost { print("Затраты на ману: \(manaCost)") }
+                    if let type = $0.type { print("Тип: \(type)") }
+                    if let rarity = $0.rarity { print("Редкость: \(rarity)") }
+                    if let setName = $0.setName { print("Название сета: \(setName)") }
+                    if let artist = $0.artist { print("Художник: \(artist)") }
+                    if let number = $0.number { print("Номер: \(number)") }
+                    print("")
+                }
             case .failure(let error):
                 print(error)
             }
@@ -36,7 +44,7 @@ class ViewController: UIViewController {
     }
 }
 
-final class GetNameEndpoint: ObjectResponseEndpoint<String> {
+final class GetNameEndpoint: ObjectResponseEndpoint<Cards> {
     
     override var method: RESTClient.RequestType { return .get }
     
@@ -46,15 +54,11 @@ final class GetNameEndpoint: ObjectResponseEndpoint<String> {
     
     
     override var path: String { "/v1/cards" }
-//    override var queryItems: [URLQueryItem(name: "id", value: "1")]?
     
     override init() {
         super.init()
         queryItems = [
-            URLQueryItem(name: "ts", value: tsValue),
-            URLQueryItem(name: "apikey", value: publicKey),
-            URLQueryItem(name: "hash", value: (tsValue + privateKey + publicKey).MD5),
-            URLQueryItem(name: "name", value: "Black Lotus")
+            URLQueryItem(name: "name", value: "Black Lotus|Opt111")
         ]
     }
 }

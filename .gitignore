@@ -1,3 +1,4 @@
 *.xcuserstate
 .DS_Store
 URLSessionStartProject.xcodeproj/xcuserdata/denissnezhko.xcuserdatad/xcschemes/xcschememanagement.plist
+*.xcbkptlist
